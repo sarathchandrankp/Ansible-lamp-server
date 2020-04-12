@@ -1,0 +1,42 @@
+---
+
+- name: 'Mariad-server Installing'
+  yum: name=MySQL-python,mariadb-server state=present
+    
+- name: 'Mariadb-server Restarting/Enabling '
+  service: name=mariadb state=restarted enabled=yes
+     
+- name: 'Mariadb-server Resetting Root Password'
+  ignore_errors: true
+  mysql_user:
+    login_user: root
+    login_password: ''
+    name: root
+    password: "{{mysql_root_password}}"
+    host_all: true
+            
+- name: 'Mariadb-server Removing Anonymous users'
+  mysql_user:
+    login_user: root
+    login_password: "{{mysql_root_password}}"
+    name: ''
+    state: absent
+    host_all: true
+            
+            
+- name: 'Mariadb-server Creating Additional database'
+  mysql_db:
+    login_user: root
+    login_password: "{{mysql_root_password}}"
+    name: "{{mysql_database}}"
+    state: present
+            
+- name: 'Mariadb-server Creating additional user/password'
+  mysql_user:
+    login_user: root
+    login_password: "{{mysql_root_password}}"
+    name: "{{mysql_user}}"
+    password: "{{mysql_password}}"
+    state: present
+    host: localhost
+    priv: "{{mysql_database}}.*:ALL"

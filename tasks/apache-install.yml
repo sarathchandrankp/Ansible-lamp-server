@@ -1,0 +1,34 @@
+---
+
+- name: 'Installing Apache'
+  yum: name=httpd,php,php-mysql state=present
+        
+- name: 'Creating Virtualhost Configuration File'
+  template:
+    src: virtualhost.j2
+    dest: /etc/httpd/conf.d/{{domain}}.conf
+    
+- name: 'Creating Document Root'
+  file:
+    path: /var/www/html/{{domain}}
+    state: directory
+    owner: apache
+    group: apache
+    mode: 0755
+            
+    
+- name: 'Creating info.html'
+  copy:
+    src: info.html
+    dest: /var/www/html/{{domain}}/
+ 
+- name: 'Creating info.php'
+  copy:
+    src: info.php
+    dest: /var/www/html/{{domain}}/
+           
+- name: 'Restarting Apache Webserver'
+  service:
+    name: httpd
+    state: restarted
+    enabled: true
