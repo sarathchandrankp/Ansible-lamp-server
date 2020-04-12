@@ -1,38 +1,30 @@
-Role Name
-=========
+###  Ansible role to Install LAMP stack on Linux (Amazone linux, etc)
 
-A brief description of the role goes here.
+This role can be used to install a fully featured LAMP stack on Amazon Linux. Tihs can be used to deply a full WordPress installation or any CMS/Application that works over a LAMP stack.
 
-Requirements
-------------
+#### Fetaures
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+  - Fully confgurable and compatible with AWS
+  - Flexible and feature rich with easy customization of roles
+  - Can be modified to support additional modules
+  - Can be used to create a standalone LAMP stack or deploy applications over the current LAMP stack
 
-Role Variables
---------------
+#### For Customization
+> Edit roles/default/main.yml 
+- mysql_root: This variable defines the root password ofthe MySQL database
+- mysql_user: This variable defines the additional database user 
+- mysql_password: This variable defines the additional MySQL database password
+- mysql_database: This variable defines the additional MySQL database name
+> Additional user will have full privilege on the mysql_database 
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+#### How to change DB settings
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+```
+$ cat var/main.yml
+---
+mysql_root: mysqlroot123
+mysql_user: mysqluser123
+mysql_password: mysqlpassword
+mysql_database: mysqldb
+domain: www.praveen.com
+```
